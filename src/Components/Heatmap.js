@@ -8,7 +8,7 @@ function Heatmap({ posts }) {
 
 Heatmap.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
-  posts: PropTypes.array.isRequired,
+  posts: PropTypes.array,
 };
 
 export default Heatmap;

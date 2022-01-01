@@ -69,16 +69,33 @@ function Input({ setPosts }) {
     const controller = new AbortController();
     const runAsync = async () => {
       try {
+        setPosts([]);
         setQuery(params ? params.query : defaultQuery);
-        const result = await axios.get(
-          `https://www.reddit.com/r/${
+        let result;
+        // eslint-disable-next-line no-plusplus
+        for (let count = 0; count < 5; count++) {
+          const url = `https://www.reddit.com/r/${
             params ? params.query : defaultQuery
-          }/new.json`,
-          {
+          }/top.json?t=year&limit=100${
+            count === 0 ? '' : `&after=${result.data.data.after}`
+          }`;
+
+          // eslint-disable-next-line no-await-in-loop
+          result = await axios.get(url, {
             signal: controller.signal,
+          });
+          if (!isCancelled) {
+            // eslint-disable-next-line
+            setPosts((prev) => {
+              const arrayPosts = result.data.data.children;
+              if (prev) {
+                prev.push(...arrayPosts);
+                return prev;
+              }
+              return result.data.data.children;
+            });
           }
-        );
-        if (!isCancelled) setPosts(result.data.data.children);
+        }
       } catch (e) {
         if (!isCancelled) {
           // console.log(e);
