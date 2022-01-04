@@ -4,10 +4,11 @@ import PropTypes from 'prop-types';
 
 function PostTable({ posts }) {
   useEffect(() => {
+    // eslint-disable-next-line no-console
     console.log(posts);
     return () => {};
   }, []);
-  return <div>{posts && posts[0]?.data.title}</div>;
+  return <div>{posts && posts[0].data.title}</div>;
 }
 
 PostTable.propTypes = {
