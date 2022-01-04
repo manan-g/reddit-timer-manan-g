@@ -8,6 +8,7 @@ const StyledFooter = styled('footer')`
   flex-direction: row;
   margin: 10px auto;
   max-width: 900px;
+   
 `;
 
 const StyledLink = styled(Link)`

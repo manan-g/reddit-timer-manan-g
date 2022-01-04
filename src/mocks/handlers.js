@@ -5,20 +5,12 @@ import jsresponse3 from './reddit-response-3.json';
 import jsresponse4 from './reddit-response-4.json';
 import jsresponse5 from './reddit-response-5.json';
 
-let responses = [
-  jsresponse1,
-  jsresponse2,
-  jsresponse3,
-  jsresponse4,
-  jsresponse5,
-];
-
 export const handlers = [
   rest.get('https://www.reddit.com/r/javascript/top.json', (req, res, ctx) => {
     let after = req.url.searchParams.get('after');
     let jsresponse;
     if (after==='t3_e8o8oz') {
-      jsresponse = jsresponse1;
+      jsresponse = jsresponse5;
     } else if (after === 't3_drl1d6') {
       jsresponse = jsresponse2;
     } else if (after === 't3_ccg6no') {

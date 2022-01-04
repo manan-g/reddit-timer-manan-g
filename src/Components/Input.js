@@ -28,7 +28,7 @@ const StyledInput = styled.input`
   padding: 0px 4px;
   border: 1px solid ${(props) => props.theme.color.text};
   border-radius: 2px;
-  margin: 10px 6px;
+  margin: 20px 6px;
   width: 250px;
   max-width: 250px;
   :focus {
@@ -37,27 +37,19 @@ const StyledInput = styled.input`
   }
 `;
 
-function Input({ setPosts }) {
+function Input({
+  setPosts, setTopicChange, setLoading, setError
+}) {
   const params = useParams();
   const [query, setQuery] = useState(params ? params.query : defaultQuery);
 
   const history = useHistory();
   // const [title, setTitle] = useState();
   // eslint-disable-next-line no-unused-vars
-  const [error, setError] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     history.push(query);
-    // try {
-    // const result = await axios.get(
-    //   `https://www.reddit.com/r/${query}/new.json`
-    // );
-    // setPosts(result.data.data.children);
-    // // setTitle(result.data.data.children[0].data.title);
-    // } catch (err) {
-    // setError(err);
-    // }
   };
 
   const handleChange = (e) => {
@@ -71,6 +63,7 @@ function Input({ setPosts }) {
       try {
         setPosts([]);
         setQuery(params ? params.query : defaultQuery);
+        setLoading(true);
         let result;
         // eslint-disable-next-line no-plusplus
         for (let count = 0; count < 5; count++) {
@@ -96,10 +89,11 @@ function Input({ setPosts }) {
             });
           }
         }
+        if (!isCancelled) setTopicChange((prev) => !prev);
       } catch (e) {
         if (!isCancelled) {
-          // console.log(e);
-          setError(e);
+          console.log(e);
+          setError(true);
         }
       }
     };
@@ -108,7 +102,7 @@ function Input({ setPosts }) {
       controller.abort();
       isCancelled = true;
     };
-  }, [setPosts, params, params.query]);
+  }, [setPosts, setTopicChange, setLoading, setError, params, params.query]);
 
   return (
     <div>
@@ -123,6 +117,9 @@ function Input({ setPosts }) {
 
 Input.propTypes = {
   setPosts: PropTypes.func.isRequired,
+  setTopicChange: PropTypes.func.isRequired,
+  setLoading: PropTypes.func.isRequired,
+  setError: PropTypes.func.isRequired,
 };
 
 export default Input;

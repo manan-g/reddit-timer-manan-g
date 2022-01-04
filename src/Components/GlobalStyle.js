@@ -2,7 +2,8 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
 body {
-  
+  margin: 0px;
+  padding: 0px;
   ${'' /* background-color: #c3c3c3; */}
 }
 @font-face {
