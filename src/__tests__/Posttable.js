@@ -60,7 +60,7 @@ test('table gets displayed when a non-zero cell is clicked', async () => {
   );
   expect(
     screen.getByRole('link', {
-      name: /V[AskJS] How are you deploying your front-end/i,
+      name: /How are you deploying your front-end/i,
     }),
   ).toHaveAttribute(
     'href',
