@@ -1,3 +1,5 @@
+/* eslint-disable prefer-destructuring */
+
 import {
   act, render, screen, waitFor,
 } from '@testing-library/react';
