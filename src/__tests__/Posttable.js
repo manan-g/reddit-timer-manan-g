@@ -70,7 +70,7 @@ test('table gets displayed when a non-zero cell is clicked', async () => {
   // author link
   expect(screen.getByRole('link', { name: /mtrajk93/i })).toHaveAttribute(
     'href',
-    'https://www.reddit.com/user/mtrajk93',
+    'https://reddit.com/user/mtrajk93',
   );
 });
 
