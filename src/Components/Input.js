@@ -92,6 +92,7 @@ function Input({
         if (!isCancelled) setTopicChange((prev) => !prev);
       } catch (e) {
         if (!isCancelled) {
+          // eslint-disable-next-line no-console
           console.log(e);
           setError(true);
         }
