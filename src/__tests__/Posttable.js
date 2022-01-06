@@ -44,7 +44,7 @@ test('table gets displayed when a non-zero cell is clicked', async () => {
   // 3 posts have their link
   expect(
     screen.getByRole('link', {
-      name: /V8 7.6 Release: "In V8 v7.6, we’ve overhauled our JSON parse.../i,
+      name: /V8 7.6 Release: "In V8 v7.6, we’ve overhauled our JSON parse/i,
     }),
   ).toHaveAttribute(
     'href',
@@ -52,7 +52,7 @@ test('table gets displayed when a non-zero cell is clicked', async () => {
   );
   expect(
     screen.getByRole('link', {
-      name: /Bouncing balls simulation using plain JavaScript (demo link .../i,
+      name: /Bouncing balls simulation using plain JavaScript/i,
     }),
   ).toHaveAttribute(
     'href',
@@ -60,7 +60,7 @@ test('table gets displayed when a non-zero cell is clicked', async () => {
   );
   expect(
     screen.getByRole('link', {
-      name: /V[AskJS] How are you deploying your front-end + node apps?/i,
+      name: /V[AskJS] How are you deploying your front-end/i,
     }),
   ).toHaveAttribute(
     'href',
@@ -106,10 +106,8 @@ test('no link when [deleted] is present', async () => {
   });
   // 3 posts have their link
   expect(
-    screen.getByRole('link', {
-      name: /[deleted]/i,
+    screen.queryByRole('link', {
+      name: /deleted/i,
     }),
-  ).not.toHaveAttribute(
-    'href',
-  );
+  ).not.toBeInTheDocument();
 });
