@@ -22,6 +22,9 @@ jobs:
 
     - name: Integration Tests
       run: yarn test
+      env:
+        TZ: Europe/Berlin
+
 
     - name: End-to-End Tests
       uses: cypress-io/github-action@v2

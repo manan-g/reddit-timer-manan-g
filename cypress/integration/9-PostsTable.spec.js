@@ -38,7 +38,7 @@ describeOnBranches('posts-table')('Posts Table', () => {
     it('links to Reddit posts', () => {
       cy.contains('abazi')
         .and('have.attr', 'href')
-        .and('eq', 'https://reddit.com/u/abazi');
+        .and('eq', 'https://reddit.com/user/abazi');
     });
 
     it('link opens in new tab', () => {

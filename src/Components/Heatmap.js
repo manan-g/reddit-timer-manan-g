@@ -1,5 +1,5 @@
-/* eslint-disable
-no-underscore-dangle,
+/* eslint-disable */
+/* no-underscore-dangle,
 react/no-array-index-key,
 react/jsx-one-expression-per-line,
 no-nested-ternary */
@@ -12,40 +12,52 @@ import Loader from './Loader';
 
 function DividePostsToMatrixOfHourOfWeek(posts) {
   const timedPosts = Array.from(Array(24 * 7));
-  const utcTime = posts[0].data.created_utc;
-  const earliestDate = new Date(utcTime * 1000);
-  const index = earliestDate.getDay() * 24 + earliestDate.getHours();
-  const minutes = earliestDate.getMinutes();
+  // const utcTime = posts[0].data.created_utc;
+  // const earliestDate = new Date(utcTime * 1000);
+  // const index = earliestDate.getDay() * 24 + earliestDate.getHours();
+  // const minutes = earliestDate.getMinutes();
 
-  if (!timedPosts[index]) {
-    timedPosts[index] = [];
-  }
-  timedPosts[index].push(posts[499]);
+  // if (!timedPosts[index]) {
+  //   timedPosts[index] = [];
+  // }
+  // timedPosts[index].push(posts[0]);
 
-  // using the relative difference in time to find the index to put the post in
   let curr;
-  for (let i = 1; i <= 499; i += 1) {
-    // difference in seconds
-    curr = posts[i].data.created_utc - utcTime + minutes * 60;
-
-    // converted in hours
-    curr /= 3600;
-
-    // if negative then make it +ve
-    while (curr < 0) curr += 24 * 7;
-
-    // converting float to int
-    // eslint-disable-next-line operator-assignment ,no-bitwise
-    curr = curr | 0;
-
-    // calculate index using relative hours
-    curr = (index + curr) % (24 * 7);
-
+  for (let i = 0; i <= 499; i += 1) {
+    curr = new Date(posts[i].data.created_utc * 1000);
+    curr = curr.getDay() * 24 + curr.getHours();
     if (!timedPosts[curr]) {
       timedPosts[curr] = [];
     }
+    // posts[i].jsdate = new Date(posts[i].data.created_utc*1000)
     timedPosts[curr].push(posts[i]);
   }
+
+  // only works if offset remains same
+  // using the relative difference in time to find the index to put the post in
+  // for (let i = 1; i <= 499; i += 1) {
+  //   // difference in seconds
+  //   curr = posts[i].data.created_utc - utcTime + minutes * 60;
+
+  //   // converted in hours
+  //   curr /= 3600;
+
+  //   // if negative then make it +ve
+  //   while (curr < 0) curr += 24 * 7;
+
+  //   // converting float to int
+  //   // eslint-disable-next-line operator-assignment ,no-bitwise
+  //   curr = curr | 0;
+
+  //   // calculate index using relative hours
+  //   curr = (index + curr) % (24 * 7);
+
+  //   if (!timedPosts[curr]) {
+  //     timedPosts[curr] = [];
+  //   }
+  //   // posts[i].jsdate = new Date(posts[i].data.created_utc*1000)
+  //   timedPosts[curr].push(posts[i]);
+  // }
   return timedPosts;
 }
 function getMaxSubArrayLength(timedPosts) {
@@ -97,7 +109,8 @@ const StyledHeatMap = styled.div`
 const StyledTimes = styled.div`
   grid-row: 1;
   grid-column: span 2;
-  grid-area: ${(props) => `1 / ${2 + props.index * 2} / 2 / ${4 + props.index * 2}`};
+  grid-area: ${(props) =>
+    `1 / ${2 + props.index * 2} / 2 / ${4 + props.index * 2}`};
   height: 100%;
   width: 100%;
   display: flex;
@@ -164,9 +177,7 @@ const SubStyledTitle = styled.div`
   color: ${(props) => props.theme.color.text};
 `;
 
-function Heatmap({
-  posts, topicChange, loading, setLoading, error, setError,
-}) {
+function Heatmap({ posts, topicChange, loading, setLoading, error, setError }) {
   const [timedPosts, setTimedPosts] = useState([]);
   const [maxLength, setMaxLength] = useState(0);
   const [timedPostIndex, setTimedPostIndex] = useState();
@@ -187,6 +198,7 @@ function Heatmap({
       if (!isCancelled && posts.length) {
         const _timedPosts = DividePostsToMatrixOfHourOfWeek(posts);
         setTimedPosts(_timedPosts);
+        // console.log(_timedPosts);
         setMaxLength(getMaxSubArrayLength(_timedPosts) / 10);
         setLoading(false);
       }
@@ -214,30 +226,24 @@ function Heatmap({
 
   return (
     <>
-      {error
-        ? (
-          <div>
-            Some Error Occured!
-          </div>
-        )
-        : !loading ? (
-          <>
-            <StyledHeatMap>
-              <div style={{ gridArea: '1/1' }} />
-              <div style={{ display: 'none' }}>
-                Heatmap
-              </div>
-              <StyledBoxShadow />
-              {timeLabels.map((timeLabel, index) => (
-                <StyledTimes key={index} index={index}>
-                  {timeLabel}
-                </StyledTimes>
-              ))}
-              {dayLabels.map((dayLabel, index) => (
-                <StylesDays key={index}>{dayLabel}</StylesDays>
-              ))}
-              {timedPosts
-              && timedPosts.map((post, index) => (
+      {error ? (
+        <div>Some Error Occured!</div>
+      ) : !loading ? (
+        <>
+          <StyledHeatMap>
+            <div style={{ gridArea: '1/1' }} />
+            <div style={{ display: 'none' }}>Heatmap</div>
+            <StyledBoxShadow />
+            {timeLabels.map((timeLabel, index) => (
+              <StyledTimes key={index} index={index}>
+                {timeLabel}
+              </StyledTimes>
+            ))}
+            {dayLabels.map((dayLabel, index) => (
+              <StylesDays key={index}>{dayLabel}</StylesDays>
+            ))}
+            {timedPosts &&
+              timedPosts.map((post, index) => (
                 <StyledPost
                   key={uuidv4()}
                   length={post ? post.length : 0}
@@ -249,18 +255,20 @@ function Heatmap({
                   {post ? post.length : 0}
                 </StyledPost>
               ))}
-            </StyledHeatMap>
-            <SubStyledTitle>
-              All times are shown in your timezone:{' '}
-              <span style={{ fontWeight: '600' }}>
-                {Intl.DateTimeFormat().resolvedOptions().timeZone}
-              </span>
-            </SubStyledTitle>
-            {timedPostIndex && <PostTable posts={timedPosts[timedPostIndex]} />}
-          </>
-        ) : (
-          <Loader />
-        )}
+          </StyledHeatMap>
+          <SubStyledTitle>
+            All times are shown in your timezone:{' '}
+            <span style={{ fontWeight: '600' }}>
+              {Intl.DateTimeFormat().resolvedOptions().timeZone}
+            </span>
+          </SubStyledTitle>
+          {timedPostIndex !== undefined && (
+            <PostTable posts={timedPosts[timedPostIndex]} />
+          )}
+        </>
+      ) : (
+        <Loader />
+      )}
     </>
   );
 }
