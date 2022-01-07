@@ -1,3 +1,22 @@
+## Reddit Timer
+This project aims to give the time period of most popular articles posted on a subreddit.
+
+**[Demo link](https://flamboyant-hamilton-54c1e0.netlify.app/)**
+
+**This project helped me to get familiar with the professional workflow**
+ - Github workflow (pull request etc)
+ - Using figma design for frontend
+ - Writing unit tests in jest
+
+
+I created this project with reference from this [blog](https://profy.dev/article/react-projects-for-your-portfolio). I used the template provided in a free example project provided by the same blog.
+
+### Tech Stack used
+ - React js
+ - Styled Components
+ - React Testing Library
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
